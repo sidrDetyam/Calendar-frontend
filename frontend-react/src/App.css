@@ -1,0 +1,82 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+body{
+  margin-top:20px;
+  background:#DCDCDC;
+}
+.thumb-sm {
+  height: 36px;
+  width: 36px;
+}
+.card-box {
+  padding: 20px;
+  border-radius: 3px;
+  margin-bottom: 30px;
+  background-color: #fff;
+}
+taskList {
+  min-height: 40px;
+  margin-bottom: 0
+}
+
+.taskList li {
+  background-color: #fff;
+  border: 1px solid rgba(121, 121, 121, .2);
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 3px
+}
+
+.taskList li:last-of-type {
+  margin-bottom: 0
+}
+
+.taskList a {
+  font-size: 13px
+}
+
+.taskList .checkbox {
+  margin-left: 20px;
+  margin-top: 5px
+}
+.text-muted {
+  color: #98a6ad!important;
+}
