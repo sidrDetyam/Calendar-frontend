@@ -7,7 +7,7 @@ const TaskCard = () => {
 
     return (
         <div className={"col-4 mt-4"}>
-            <Card>
+            <Card style={{width: 200}}>
                 <Card.Body>
                     <h3 className={"text-center"}>{name}</h3>
                     <h5 className={"text-center"}>{description}</h5>
