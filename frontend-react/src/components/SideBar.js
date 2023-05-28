@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Row} from "react-bootstrap";
-import LogoutIcon from "../icons/LogoutIcon";
+import LogoutIcon from "./icons/LogoutIcon";
 
 const SideBar = () => {
     return (

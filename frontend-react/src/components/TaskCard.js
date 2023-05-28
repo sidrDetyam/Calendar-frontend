@@ -1,19 +1,24 @@
 import React from 'react';
-import {Card, Col, Row} from "react-bootstrap";
+import {Button, Card, ListGroup} from "react-bootstrap";
+import EditIcon from "./icons/EditIcon";
 
-const TaskCard = () => {
-    const name = "Имя"
-    const description = "ldsndsnldkndksnlksdnl"
-
+const TaskCard = ({taskName, description, taskDate, countOfRepeat, onEdit}) => {
     return (
         <div className={"col-4 mt-4"}>
             <Card>
                 <Card.Body>
-                    <h3 className={"text-center"}>{name}</h3>
-                    <h5 className={"text-center"}>{description}</h5>
-
-
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Card.Title>{taskName}</Card.Title>
+                        <Button variant="outline-primary" onClick={onEdit}>
+                            <EditIcon size={16}/>
+                        </Button>
+                    </div>
+                    <Card.Subtitle className="mb-2 text-muted">{taskDate}</Card.Subtitle>
+                    <Card.Text>{description}</Card.Text>
                 </Card.Body>
+                <ListGroup variant="flush">
+                    <ListGroup.Item>Повторений: {countOfRepeat}</ListGroup.Item>
+                </ListGroup>
             </Card>
         </div>
     );

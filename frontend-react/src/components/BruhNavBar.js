@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsAuthAction} from "../store/UserReducer";
 import NavBarButton from "../components/NavBarButton";
-import LogoutIcon from "../icons/LogoutIcon";
+import LogoutIcon from "./icons/LogoutIcon";
 import {EVENTS_ROUTE, TASKS_ROUTE} from "../api/ApiRoutes";
 import {clearTokens} from "../api/AuthService";
 import {LOGIN_PAGE_ROUTE} from "../navigation/Routes";

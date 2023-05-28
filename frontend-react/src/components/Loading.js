@@ -5,8 +5,7 @@ const MIN_DOT = 1
 const MAX_DOT = 3
 const INTERVAL = 500
 
-const FullPageLoading = (props) => {
-
+const Loading = ({loadingText, fullPage}) => {
     const [cntOfDots, setCntOfDots] = useState(MIN_DOT)
 
     const cb = useCallback(() => {
@@ -22,18 +21,17 @@ const FullPageLoading = (props) => {
             const counter = cb()
             const clear = setInterval(() => setCntOfDots(counter()), INTERVAL)
             return () => {
-                console.log("cleared")
                 clearInterval(clear)
             }
         },
         [cb, setCntOfDots])
 
     return (
-        <Container className={"container-fluid"}>
-            <Row className={"align-items-center justify-content-center min-vh-100"}>
+        <Container className={"container-fluid mt-2"}>
+            <Row className={fullPage? "align-items-center justify-content-center min-vh-100" : ""}>
                 <Col className={"col-12 d-flex justify-content-center"}>
                     <Spinner animation={"border"} className={""}/>
-                    <h3 className={"ms-2"}>{(props.loadingText ?? "Loading")}</h3>
+                    <h3 className={"ms-2"}>{(loadingText ?? "Loading")}</h3>
                     <div style={{width: "50px"}}>
                         <h3 className={""}>{".".repeat(MIN_DOT + cntOfDots)}</h3>
                     </div>
@@ -43,4 +41,4 @@ const FullPageLoading = (props) => {
     );
 };
 
-export default FullPageLoading;
+export default Loading;

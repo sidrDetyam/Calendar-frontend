@@ -4,7 +4,7 @@ import AppRouter from "./navigation/AppRouter";
 import {useDispatch} from "react-redux";
 import {setIsAuthAction} from "./store/UserReducer";
 import {useEffect, useState} from "react";
-import FullPageLoading from "./components/FullPageLoading";
+import Loading from "./components/Loading";
 import {BruhNavBar} from "./components/BruhNavBar";
 import {isAuth} from "./api/AuthService";
 
@@ -22,7 +22,7 @@ function App() {
   }, [dispatch])
 
   if (loading) {
-    return (<FullPageLoading loadingText={"Loading"}/>)
+    return (<Loading loadingText={"Loading"}/>)
   }
 
   return (
