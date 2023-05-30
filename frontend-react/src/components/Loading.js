@@ -30,8 +30,8 @@ const Loading = ({loadingText, fullPage}) => {
         <Container className={"container-fluid mt-2"}>
             <Row className={fullPage? "align-items-center justify-content-center min-vh-100" : ""}>
                 <Col className={"col-12 d-flex justify-content-center"}>
-                    <Spinner animation={"border"} className={""}/>
-                    <h3 className={"ms-2"}>{(loadingText ?? "Loading")}</h3>
+                    <Spinner animation={"border"} style={{color: "white"}}/>
+                    <h3 className={"ms-2"} style={{color: "white"}}>{(loadingText ?? "Loading")}</h3>
                     <div style={{width: "50px"}}>
                         <h3 className={""}>{".".repeat(MIN_DOT + cntOfDots)}</h3>
                     </div>

@@ -1,8 +1,8 @@
 import api from './Api'
 import {ACCESS_TOKEN_LS, REFRESH_TOKEN_LS, USER_INFO} from "./Api";
 import jwt_decode from "jwt-decode";
+import {LOGIN_URL} from "./ApiRoutes";
 
-const LOGIN_URL = "/auth/login"
 
 export async function login(username, password) {
     try{
@@ -15,7 +15,7 @@ export async function login(username, password) {
         return true;
     }
     catch (error){
-        console.log(error)
+        // console.log(error)
         return false;
     }
 }

@@ -68,7 +68,7 @@ const NewTaskForm = ({show, onDiscardCb, onSubmitCb}) => {
                 <Button variant="secondary" onClick={onDiscardCb}>
                     <TrashIcon size={16}/> Отмена
                 </Button>
-                <Button variant={"primary"} disabled={!isValid} onClick={onSubmit}>
+                <Button variant={"dark"} disabled={!isValid} onClick={onSubmit}>
                     <UploadIcon size={16}/> Сохранить
                 </Button>
             </Modal.Footer>
