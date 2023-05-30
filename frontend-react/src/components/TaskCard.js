@@ -9,7 +9,7 @@ const TaskCard = ({taskName, description, taskDate, countOfRepeat, onEdit}) => {
                 <Card.Body>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Card.Title>{taskName}</Card.Title>
-                        <Button variant="outline-primary" onClick={onEdit}>
+                        <Button variant="outline-dark" onClick={onEdit}>
                             <EditIcon size={16}/>
                         </Button>
                     </div>

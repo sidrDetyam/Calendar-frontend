@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import TaskCard from "./TaskCard";
-import {Button, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import InputTemplate from "./forms/InputTemplate";
 import {api_rejected} from "../api/Api";
 import PlusIcon from "./icons/PlusIcon";
@@ -8,6 +8,10 @@ import NewTaskForm from "./forms/NewTaskForm";
 import {convertObjectToQueryString} from "../Utils";
 import Loading from "./Loading";
 import EditTaskForm from "./forms/EditTaskForm";
+import NewTaskCard from "./NewTaskCard";
+import NavBarButton from "./NavBarButton";
+import {EVENTS_ROUTE, TASKS_ROUTE} from "../api/ApiRoutes";
+import LogoutIcon from "./icons/LogoutIcon";
 
 const NO_EDIT = 0
 const NEW_TASK = 1
@@ -54,7 +58,7 @@ const TaskBoard = () => {
 
     const mapTasks = (isFinish) => {
         return tasks
-            .filter(task => !(task.isFinish ^ isFinish))
+            .filter(task => task.isFinish === isFinish)
             .sort((a, b) => a.taskDate < b.taskDate)
             .map((task, index) =>
                 <TaskCard key={index} onEdit={onEditClick(task)} {...task}/>)
@@ -78,43 +82,79 @@ const TaskBoard = () => {
                               }
                               }/>}
 
-            <div className={"container mt-5"}>
+            <div className={"container-fluid"}  style={{backgroundColor: "rgba(52,53,65,1)"}}>
                 <div className={"row"}>
-                    <div className={"col-2"}>
-                        <Container className={"mt-5"}>
-                            <Row className={"mt-5"}>
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               variant={"datetime-local"} ph={"from"} field={"from"}/>
+                    <div className={"col-2 min-vh-100"}>
+                        <div className={"container-fluid h-100"}>
 
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               variant={"datetime-local"} ph={"to"} field={"to"}/>
+                            <Row style={{height: "70%"}}>
+                                <Col style={{marginTop: 250}}>
+                                    <InputTemplate inputs={inputs} setInputs={setInputs}
+                                                   maxWidth={300} margin={1}
+                                                   variant={"datetime-local"} ph={"from"} field={"from"}/>
 
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               ph={"Поиск по названию"} field={"taskName"}/>
+                                    <InputTemplate inputs={inputs} setInputs={setInputs}
+                                                   maxWidth={300} margin={2}
+                                                   variant={"datetime-local"} ph={"to"} field={"to"}/>
 
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               ph={"Поиск по описанию"} field={"description"}/>
+                                    <InputTemplate inputs={inputs} setInputs={setInputs}
+                                                   maxWidth={300} margin={2}
+                                                   ph={"Поиск по названию"} field={"taskName"}/>
 
-                                {isLoading && <Loading loadingText={"Загрузка "}/>}
+                                    <InputTemplate inputs={inputs} setInputs={setInputs}
+                                                   maxWidth={300} margin={2}
+                                                   ph={"Поиск по описанию"} field={"description"}/>
+
+                                    {isLoading && <Loading loadingText={"Загрузка "}/>}
+                                </Col>
                             </Row>
-                        </Container>
+
+                            <Row style={{height: "30%"}}>
+                                <div className={"container"}>
+                                    <div className={"row"} style={{maxWidth: 300, marginTop: 50}}>
+                                        <NavBarButton variant={"dark"} route={EVENTS_ROUTE} title={"События"}
+                                                      other={{style: {color: "white"}, disabled: true}}/>
+                                    </div>
+
+                                    <div className={"row"} style={{maxWidth: 300, marginTop: 10}}>
+                                        <NavBarButton variant={"dark"} route={TASKS_ROUTE} title={"Задачи"}
+                                                      other={{style: {color: "white"}}}/>
+                                    </div>
+
+                                    <div className={"row"} style={{maxWidth: 300, marginTop: 50}}>
+                                        <Button variant={"danger"} style={{color: "white"}} onClick={() => {
+                                        }} className={"ml-2"}>
+                                            <LogoutIcon size={20}/>Выйти
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Row>
+                        </div>
                     </div>
 
-                    <div className={"col-5"}>
+                    <div className={"col-5"} style={{backgroundColor: "rgba(217,217,227, 1)",
+                        marginTop: 5,
+                        paddingTop: 100,
+                        borderRadius: 30
+                    }}>
                         <h3 className={"text-center"}>Активные задачи</h3>
-
                         <div className={"container mt-5"}>
                             <div className={"row"}>
                                 {mapTasks(false)}
+                                <NewTaskCard onClick={() => setEditMode(NEW_TASK)}/>
                             </div>
                         </div>
 
                     </div>
-                    <div className={"col-5"}>
+
+                    <div className={"col-5"}
+                         style={{backgroundColor: "rgba(247,247,248, 0.95)",
+                                marginTop: 5,
+                                paddingTop: 100,
+                                borderColor: "black",
+                                borderWidth: 4,
+                                borderRadius: 30
+                         }}>
                         <h3 className={"text-center"}>Выполненные задачи</h3>
 
                         <div className={"container mt-5"}>
@@ -125,13 +165,13 @@ const TaskBoard = () => {
                     </div>
                 </div>
 
-                <Row className={"align-items-center justify-content-center"}>
-                    <div className={"col-2 mt-5"}>
-                        <Button variant={"outline-primary"} onClick={() => setEditMode(NEW_TASK)}>
-                            <PlusIcon size={20}/> Новая задача
-                        </Button>
-                    </div>
-                </Row>
+                {/*<Row className={"align-items-center justify-content-center"}>*/}
+                {/*    <div className={"col-2 mt-5"}>*/}
+                {/*        <Button variant={"outline-primary"} onClick={() => setEditMode(NEW_TASK)}>*/}
+                {/*            <PlusIcon size={20}/> Новая задача*/}
+                {/*        </Button>*/}
+                {/*    </div>*/}
+                {/*</Row>*/}
             </div>
 
         </>
