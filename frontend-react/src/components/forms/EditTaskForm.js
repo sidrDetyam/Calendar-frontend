@@ -68,7 +68,7 @@ const EditTaskForm = ({task, show, onDiscardCb, onSubmitCb}) => {
                 <Button variant="danger" onClick={onDelete}>
                     <TrashIcon size={16}/> Удалить
                 </Button>
-                <Button variant={"primary"} disabled={!isValid} onClick={onSubmit}>
+                <Button variant={"dark"} disabled={!isValid} onClick={onSubmit}>
                     <UploadIcon size={16}/> Сохранить
                 </Button>
             </Modal.Footer>

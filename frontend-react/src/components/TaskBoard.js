@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import TaskCard from "./TaskCard";
-import {Button, Container, Row} from "react-bootstrap";
-import InputTemplate from "./forms/InputTemplate";
 import {api_rejected} from "../api/Api";
-import PlusIcon from "./icons/PlusIcon";
 import NewTaskForm from "./forms/NewTaskForm";
 import {convertObjectToQueryString} from "../Utils";
-import Loading from "./Loading";
 import EditTaskForm from "./forms/EditTaskForm";
+import NewTaskCard from "./NewTaskCard";
+import {EDIT_TASK_ROUTE} from "../api/ApiRoutes";
+import TasksFilters from "./forms/TasksFilters";
+import SideBar from "./SideBar";
 
 const NO_EDIT = 0
 const NEW_TASK = 1
@@ -52,12 +52,33 @@ const TaskBoard = () => {
         }
     }
 
+    const [dndState, setDndState] = useState({isDnd: false, isFinishedBoard: false, task: undefined})
+
+    const onDragOver = (isFinishedBoard) => () => {
+        setDndState({...dndState, isFinishedBoard: isFinishedBoard})
+    }
+
+    const onDragStart = (task) => {
+        setDndState(s => {return {...s, isDnd: true, task: task}})
+    }
+
+    const onDragEnd = (task) => {
+        setDndState(s => {return {...s, isDnd: false}})
+        if(task.isFinish !== dndState.isFinishedBoard){
+            task.isFinish = dndState.isFinishedBoard
+            api_rejected
+                .put(EDIT_TASK_ROUTE, task)
+                .catch(err => console.log(err))
+                .finally(() => setActual(false))
+        }
+    }
+
     const mapTasks = (isFinish) => {
         return tasks
-            .filter(task => !(task.isFinish ^ isFinish))
-            .sort((a, b) => a.taskDate < b.taskDate)
+            .filter(task => task.isFinish === isFinish)
+            .sort((a, b) => a.id < b.id)
             .map((task, index) =>
-                <TaskCard key={index} onEdit={onEditClick(task)} {...task}/>)
+                <TaskCard key={index} onEdit={onEditClick(task)} task={task} onDndStart={onDragStart} onDndEnd={onDragEnd}/>)
     }
 
     return (
@@ -78,60 +99,45 @@ const TaskBoard = () => {
                               }
                               }/>}
 
-            <div className={"container mt-5"}>
+            <div className={"container-fluid"} style={{backgroundColor: "rgba(52,53,65,1)"}}>
                 <div className={"row"}>
-                    <div className={"col-2"}>
-                        <Container className={"mt-5"}>
-                            <Row className={"mt-5"}>
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               variant={"datetime-local"} ph={"from"} field={"from"}/>
-
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               variant={"datetime-local"} ph={"to"} field={"to"}/>
-
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               ph={"Поиск по названию"} field={"taskName"}/>
-
-                                <InputTemplate inputs={inputs} setInputs={setInputs}
-                                               maxWidth={250}
-                                               ph={"Поиск по описанию"} field={"description"}/>
-
-                                {isLoading && <Loading loadingText={"Загрузка "}/>}
-                            </Row>
-                        </Container>
+                    <div className={"col-2 min-vh-100"}>
+                        <SideBar child={<TasksFilters setInputs={setInputs} inputs={inputs} isLoading={isLoading}/>}/>
                     </div>
 
-                    <div className={"col-5"}>
-                        <h3 className={"text-center"}>Активные задачи</h3>
-
-                        <div className={"container mt-5"}>
+                    <div className={"col-10"} style={{backgroundColor: "rgba(217,217,227, 1)",
+                        marginTop: 10,
+                        marginBottom: 10,
+                        paddingTop: 100,
+                        borderRadius: 15
+                    }}>
+                        <div className={"container-fluid"}>
                             <div className={"row"}>
-                                {mapTasks(false)}
-                            </div>
-                        </div>
 
-                    </div>
-                    <div className={"col-5"}>
-                        <h3 className={"text-center"}>Выполненные задачи</h3>
+                                <div className={"col-6"} onDragOver={onDragOver(false)}>
+                                    <h3 className={"text-center"}>Активные задачи</h3>
+                                    <div className={"container mt-5"}>
+                                        <div className={"row"}>
+                                            {mapTasks(false)}
 
-                        <div className={"container mt-5"}>
-                            <div className={"row"}>
-                                {mapTasks(true)}
+                                            {!dndState.isDnd && <NewTaskCard onClick={() => setEditMode(NEW_TASK)}/>}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={"col-6"} onDragOver={onDragOver(true)}>
+                                    <h3 className={"text-center"}>Выполненные задачи</h3>
+
+                                    <div className={"container mt-5"}>
+                                        <div className={"row"}>
+                                            {mapTasks(true)}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <Row className={"align-items-center justify-content-center"}>
-                    <div className={"col-2 mt-5"}>
-                        <Button variant={"outline-primary"} onClick={() => setEditMode(NEW_TASK)}>
-                            <PlusIcon size={20}/> Новая задача
-                        </Button>
-                    </div>
-                </Row>
             </div>
 
         </>

@@ -27,7 +27,7 @@ function App() {
 
   return (
       <BrowserRouter>
-        <BruhNavBar/>
+        {/*<BruhNavBar/>*/}
         <AppRouter/>
       </BrowserRouter>
   );

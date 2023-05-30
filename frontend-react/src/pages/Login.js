@@ -32,15 +32,14 @@ const Login = () => {
                     <Row>
                     <Form className={"p-0"}>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Username</Form.Label>
+                                <Form.Label>Имя пользователя</Form.Label>
                                 <Form.Control {...username} placeholder="Enter username"/>
                                 <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
                                 </Form.Text>
                             </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
+                        <Form.Group className={"mt-2"} controlId="formBasicPassword">
+                            <Form.Label>Пароль</Form.Label>
                             <Form.Control {...password} type="password" placeholder="Password"/>
                         </Form.Group>
                     </Form>
@@ -54,7 +53,7 @@ const Login = () => {
                             </Col>
                             <Col className={"col-4"}>
                                 <Button className={"mt-3"} variant="primary" onClick={onSubmit}>
-                                    Sign in
+                                    Войти
                                 </Button>
                             </Col>
                         </Row>
